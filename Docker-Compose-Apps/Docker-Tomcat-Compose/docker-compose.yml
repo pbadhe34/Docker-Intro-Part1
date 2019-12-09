@@ -1,0 +1,16 @@
+version: "3"
+services:
+  web:
+    # The image tomcat-server  is built locally from the     
+    #directory Docker-tomcat program 
+    image: tomcat-deploy
+    deploy:
+      replicas: 4      
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "8090:8080"
+    networks:
+      - webnet
+networks:
+  webnet:

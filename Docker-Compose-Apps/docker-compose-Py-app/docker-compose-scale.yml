@@ -1,0 +1,10 @@
+version: '3'
+services:
+  web:     
+    image: pbadhe34/my-apps:app1
+    ports:
+     - "5000:8090"
+    volumes:
+     - .:/code
+  redis:
+    image: "redis"

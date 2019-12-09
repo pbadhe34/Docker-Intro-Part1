@@ -1,0 +1,126 @@
+version: '2'
+ 
+services:
+  mysql:
+    image: mysql
+    container_name: mysql-drupal
+    environment:
+      MYSQL_ROOT_PASSWORD: "mypassword"
+      MYSQL_DATABASE: "drupal"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: always
+    networks:
+      - drupal_mysql_net
+ 
+  drupal:
+    depends_on:
+      - mysql
+    image: drupal
+    container_name: drupal
+    ports:
+      - 8080:80
+    volumes:
+      - /var/www/html/modules
+      - /var/www/html/profiles
+      - /var/www/html/themes
+      - /var/www/html/sites
+    links:
+      - mysql:mysql
+    restart: always
+    networks:
+      - drupal_mysql_net
+ 
+volumes:
+  mysql_data:
+ 
+networks:
+  drupal_mysql_net:
+    driver: bridge
+
+$docker-compose up -d
+..
+Creating network "drupalmysql_drupal_mysql_net" with driver "bridge"
+Creating volume "drupalmysql_mysql_data" with default driver
+Pulling drupal (drupal:latest)...
+..
+Creating mysql-drupal
+Creating drupal
+
+
+To tear them down
+ 
+$ docker-compose down
+
+
+Composing a Stack Across Swarm
+Firstly, make sure the Docker engine is running on v1.13 and Swarm mode is enabled and in ready state:
+
+docker node ls
+create a directory for our new stack:
+
+1
+2
+$ mkdir -p ~/compose-files/drupal-galera
+$ cd ~/compose-files/drupal-galera
+
+
+Docker stack compose run
+
+version: '3'
+ 
+services:
+ 
+  galera:
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+        window: 60s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        max_failure_ratio: 0.3
+    image: severalnines/pxc56
+    environment:
+      MYSQL_ROOT_PASSWORD: "mypassword"
+      CLUSTER_NAME: "my_galera"
+      XTRABACKUP_PASSWORD: "mypassword"
+      DISCOVERY_SERVICE: '192.168.55.111:2379,192.168.55.112:2379,192.168.55.207:2379'
+      MYSQL_DATABASE: 'drupal'
+    networks:
+      - galera_net
+ 
+  drupal:
+    depends_on:
+      - galera
+    deploy:
+      replicas: 1
+    image: drupal
+    ports:
+      - 8080:80
+    volumes:
+      - drupal_modules:/var/www/html/modules
+      - drupal_profile:/var/www/html/profiles
+      - drupal_theme:/var/www/html/themes
+      - drupal_sites:/var/www/html/sites
+    networks:
+      - galera_net
+ 
+volumes:
+  drupal_modules:
+  drupal_profile:
+  drupal_theme:
+  drupal_sites:
+ 
+networks:
+  galera_net:
+    driver: overlay
+
+To start them 
+docker stack deploy --compose-file=docker-compose.yml my_drupal
+
+ docker stack ls
+docker stack ps my_drupal

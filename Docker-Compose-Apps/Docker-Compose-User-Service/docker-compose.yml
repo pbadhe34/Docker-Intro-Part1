@@ -1,0 +1,41 @@
+version: '3'
+services:
+  web:
+    image: pbadhe34/my-apps:user-app
+    ports:
+       - "8090:8090"
+    networks:
+       - webnet     
+    deploy:
+      replicas: 3
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+  mysql:
+    image: mysql:5.6     
+    ports:
+        - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "MyRootPass123"
+      MYSQL_DATABASE: userservice
+      MYSQL_USER: app-user
+      MYSQL_PASSWORD: "MyRootPass123"
+    volumes:
+       - /c/Users/Prakash/Docker-Compose-User-Service/data/mysqldata:/var/lib/mysql
+    networks:
+       - webnet
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+networks:
+  webnet:
+
+  

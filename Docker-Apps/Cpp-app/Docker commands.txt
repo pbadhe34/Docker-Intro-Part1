@@ -1,0 +1,39 @@
+docker build -t  app:v1 .
+
+docker images app
+
+docker run -it --rm --name app-container app:v1
+
+docker run -it --name container2 app:v1
+
+docker container ls
+
+
+docker container ls -a
+
+docker container logs CONTAINER-id/name
+
+docker container logs container2
+
+docker container stop container2
+
+docker container kill [OPTIONS] CONTAINER [CONTAINER...]
+
+docker container kill CONTAINER-id/name
+
+docker container kill container2
+
+docker container rm [OPTIONS] CONTAINER [CONTAINER...]
+
+docker container rm container2
+
+docker container rm app-container
+
+docker ps
+docker ps -a
+
+To remove the docker image
+Remove the Docker image app:v1 with the docker rmi command.
+
+docker rmi app:v1 --force 
+

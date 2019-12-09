@@ -1,0 +1,41 @@
+version: '3'
+services:
+  webApp1:
+    image: test-app
+    ports:
+     - "5000:8090" 
+
+  webApp2:
+    image: test-app
+    ports:
+     - "5001:8090"  
+  webApp3:
+    image: test-app
+    ports:
+     - "8090" 
+
+  redis:
+     image: redis 
+     volumes:
+      - /redis-volume:/data
+     deploy:       
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+      restart_policy:
+        condition: on-failure
+
+  app:
+    image: pbadhe34/my-apps:app1
+    ports:
+      - "80:8090"
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+      restart_policy:
+        condition: on-failure
+      

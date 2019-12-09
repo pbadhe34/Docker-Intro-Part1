@@ -1,0 +1,18 @@
+version: '3.0'
+services:
+  App1:
+    image: test-app   
+    ports:
+     - "9090:8090"
+  redis:
+    image: redis
+    volumes:
+     - "/redis-volume:/data"
+  App2:
+    image: test-app   
+    ports:
+     - "9080:8090"     
+  App3:
+    image: test-app  
+    ports:
+     - "8090"    

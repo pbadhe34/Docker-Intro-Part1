@@ -1,0 +1,25 @@
+http://docs.groovy-lang.org/next/html/documentation/#_ternary_operator
+http://groovy-lang.org/download.html
+Groovy cheat sheet
+ Grails call
+    skilles needed
+    objective
+    version grails
+    database
+    Server
+    Windows ?
+    Duration
+
+  
+Docker compose
+Docker scale
+Docker rolling update
+docker in swarm
+Jenkins with docker delivery
+Docker-Flow
+Puppet config management
+Monitoring docker on windows and Linux
+Docker logging
+Microservices with docker
+Complete web app wuth Databse and microservices in docker container
+

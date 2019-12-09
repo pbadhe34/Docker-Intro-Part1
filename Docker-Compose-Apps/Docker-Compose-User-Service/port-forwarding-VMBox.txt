@@ -1,0 +1,8 @@
+Open Oracle VM VirtualBox Manager
+Select the VM used by Docker
+Click Settings -> Network
+Adapter 1 should (default?) be "Attached to: NAT"
+Click Advanced -> Port Forwarding
+Add rule: Protocol TCP, Host Port 8080, Guest Port 8080 (leave Host IP and Guest IP empty)
+Guest is your docker container and Host is your machine
+You should now be able to browse to your container via localhost:8080 and your-internal-ip:8080.

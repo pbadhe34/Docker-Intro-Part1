@@ -1,0 +1,17 @@
+#dockerffile contents
+
+FROM ubuntu
+ADD file1 /ubuntu1/file
+VOLUME /ubuntu1
+CMD /bin/sh
+
+#build image
+ docker build -t test/docker-volume Dockerfile-volume .
+
+ #run the container with image
+docker run -it test/docker-volume
+
+#Check the /ubuntu1 dir and file created
+ls /ubuntu1
+file
+

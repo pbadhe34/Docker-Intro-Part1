@@ -1,0 +1,9 @@
+Docker for windows
+
+D:\Docker-Apps\docker-compose-apps
+
+Docker with Linux VM on windows
+
+/d/Docker-Apps/docker-compose-apps
+
+/d/Docker-Apps/Docker-Asp-netCore-App
